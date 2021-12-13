@@ -12,16 +12,14 @@ export default function ButtonAppBar() {
             <AppBar position="static" color='transparent'>
                 <Toolbar>
                     <IconButton
-                        size="large"
                         edge="start"
                         color="inherit"
                         aria-label="menu"
-                        sx={{ mr: 3 }}
                     >
-                        <MenuIcon />
+                        <MenuIcon className={classes.menuIcon} />
                     </IconButton>
 
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontFamily: theme.titleText.fontFamily, fontSize: theme.titleText.fontSize }}>
+                    <Typography variant="h6" component="div" sx={{ textAlign: 'center', flexGrow: 1, fontFamily: theme.titleText.fontFamily, fontSize: theme.titleText.fontSize }}>
                         SAILORAMA
                     </Typography>
 
@@ -52,5 +50,10 @@ const useStyles = makeStyles((theme) => (
     {
         titleText: {
             fontFamily: theme.titleText.fontFamily + "!important"
+        },
+        menuIcon: {
+            [theme.breakpoints.up('sm')]: {
+                fontSize: '40px !important',
+            },
         }
     }));
