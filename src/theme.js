@@ -5,5 +5,7 @@ export const theme = createTheme({
         fontFamily: "'Fredoka One', cursive",
         fontSize: "26px"
     },
+    appBarXSHeight: '44px',
+    appBarRegularHeight: '50px'
 });
 

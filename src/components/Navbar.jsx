@@ -1,32 +1,42 @@
-import * as React from 'react';
-import { AppBar, Box, Toolbar, Typography, IconButton } from '@mui/material';
+import React, { useContext} from 'react';
+import { AppBar, Box, Toolbar, Typography, IconButton, useMediaQuery } from '@mui/material';
 import { Menu as MenuIcon, Search as SearchIcon, DateRange } from '@mui/icons-material';
+import Hamburger from 'hamburger-react';
 import { makeStyles, useTheme } from '@mui/styles';
+import { AppBarContext }from '../contexts/appBar';
 
-export default function ButtonAppBar() {
+const NavBar = () => {
     const classes = useStyles();
     const theme = useTheme()
+    const notMobile = useMediaQuery(theme.breakpoints.up('sm'));
+    const { appBarState, setAppBarState} = useContext(AppBarContext);
+    const { toggled } = appBarState
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" color='transparent'>
-                <Toolbar>
+            <AppBar position="fixed" classes={{root: classes.appBar}}>
+                <Toolbar variant='regular' classes={{ root: classes.toolBar, gutters: classes.toolBarGutters}}>
                     <IconButton
+                        size="medium"
                         edge="start"
-                        color="inherit"
-                        aria-label="menu"
+                        aria-label={{ fontSize: '100px' }}
                     >
-                        <MenuIcon className={classes.menuIcon} />
+                        <Hamburger
+                            toggle={() => setAppBarState({...appBarState, toggled: !toggled})}
+                            toggled={toggled}
+                            size={notMobile ? 27 : 25} 
+                            color='black'
+                        />
                     </IconButton>
 
-                    <Typography variant="h6" component="div" sx={{ textAlign: 'center', flexGrow: 1, fontFamily: theme.titleText.fontFamily, fontSize: theme.titleText.fontSize }}>
+                    <Typography color="black" variant="h6" component="div" sx={{ textAlign: 'center', flexGrow: 1, fontFamily: theme.titleText.fontFamily, fontSize: theme.titleText.fontSize }}>
                         SAILORAMA
                     </Typography>
 
                     <IconButton
                         size="large"
                         edge="end"
-                        color="inherit"
+                        style={{ color: 'black', marginRight: '10px' }}
                         aria-label="menu"
                     >
                         <DateRange />
@@ -35,7 +45,7 @@ export default function ButtonAppBar() {
                     <IconButton
                         size="large"
                         edge="end"
-                        color="inherit"
+                        style={{ color: 'black' }}
                         aria-label="menu"
                     >
                         <SearchIcon />
@@ -51,9 +61,21 @@ const useStyles = makeStyles((theme) => (
         titleText: {
             fontFamily: theme.titleText.fontFamily + "!important"
         },
-        menuIcon: {
+        appBar: {
+            backgroundColor: 'white !important',
+            height: theme.appBarXSHeight,
             [theme.breakpoints.up('sm')]: {
-                fontSize: '40px !important',
+                height: theme.appBarRegularHeight,
             },
+        },
+        toolBar: {
+            backgroundColor: 'white !important',
+            minHeight: theme.appBarXSHeight + '!important',
+            [theme.breakpoints.up('sm')]: {
+                minHeight: theme.appBarRegularHeight + 'important',
+           },
         }
-    }));
+    }
+))
+
+export default NavBar
